@@ -14,8 +14,8 @@ end
 TCPSocket.class_eval do
   alias_method :initialize_without_private_address_check, :initialize
 
-  def initialize(*args)
-    initialize_without_private_address_check(*args)
+  def initialize(*args, **kwargs)
+    initialize_without_private_address_check(*args, **kwargs)
     if Thread.current[:private_address_check] && PrivateAddressCheck.resolves_to_private_address?(remote_address.ip_address)
       raise PrivateAddressCheck::PrivateConnectionAttemptedError
     end
